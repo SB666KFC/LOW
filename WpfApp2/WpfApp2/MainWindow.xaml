@@ -1,0 +1,125 @@
+﻿<!-- MainWindow.xaml -->
+<Window x:Class="VisionSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VisionSystem"
+        mc:Ignorable="d"
+        Title="嘉励机器视觉系统" Height="800" Width="1200">
+    <!-- 窗口内容 -->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部菜单栏 -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="文件">
+                <MenuItem Header="打开图像" Click="OpenImage_Click"/>
+                <MenuItem Header="保存结果" Click="SaveResult_Click"/>
+                <Separator/>
+                <MenuItem Header="退出" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="相机">
+                <MenuItem Header="连接相机" Click="ConnectCamera_Click"/>
+                <MenuItem Header="断开相机" Click="DisconnectCamera_Click"/>
+                <MenuItem Header="相机设置" Click="CameraSettings_Click"/>
+            </MenuItem>
+            <MenuItem Header="设置">
+                <MenuItem Header="系统设置" Click="SystemSettings_Click"/>
+                <MenuItem Header="参数配置" Click="ParameterSettings_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- 主要内容区域 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧图像显示和工具栏 -->
+            <DockPanel Grid.Column="0">
+                <ToolBar DockPanel.Dock="Top">
+                    <Button x:Name="btnGrab" Content="采集" Click="Grab_Click"/>
+                    <Button x:Name="btnLive" Content="实时" Click="Live_Click"/>
+                    <Button x:Name="btnStop" Content="停止" Click="Stop_Click"/>
+                    <Separator/>
+                    <Button x:Name="btnMeasure" Content="测量" Click="Measure_Click"/>
+                    <Button x:Name="btnCalibrate" Content="标定" Click="Calibrate_Click"/>
+                </ToolBar>
+
+                <!-- 图像显示区域 -->
+                <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                    <Image x:Name="imgDisplay" Stretch="Uniform"/>
+                </Border>
+            </DockPanel>
+
+            <!-- 右侧参数和结果面板 -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- 相机参数 -->
+                <GroupBox Header="相机参数" Grid.Row="0" Margin="5">
+                    <StackPanel>
+                        <Label Content="曝光时间(ms)"/>
+                        <Slider x:Name="sldExposure" Minimum="0" Maximum="1000" 
+                                ValueChanged="Exposure_ValueChanged"/>
+                        <TextBox Text="{Binding ElementName=sldExposure, Path=Value}"/>
+
+                        <Label Content="增益"/>
+                        <Slider x:Name="sldGain" Minimum="0" Maximum="100"
+                                ValueChanged="Gain_ValueChanged"/>
+                        <TextBox Text="{Binding ElementName=sldGain, Path=Value}"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- 测量参数 -->
+                <GroupBox Header="测量参数" Grid.Row="1" Margin="5">
+                    <StackPanel>
+                        <CheckBox Content="边缘检测" x:Name="chkEdgeDetection"/>
+                        <CheckBox Content="圆度检测" x:Name="chkCircularity"/>
+                        <CheckBox Content="尺寸测量" x:Name="chkDimension"/>
+
+                        <Label Content="检测阈值"/>
+                        <Slider x:Name="sldThreshold" Minimum="0" Maximum="255"
+                                ValueChanged="Threshold_ValueChanged"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- 测量结果 -->
+                <GroupBox Header="测量结果" Grid.Row="2" Margin="5">
+                    <DataGrid x:Name="dgResults" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="项目" Binding="{Binding Item}"/>
+                            <DataGridTextColumn Header="数值" Binding="{Binding Value}"/>
+                            <DataGridTextColumn Header="单位" Binding="{Binding Unit}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </Grid>
+        </Grid>
+
+        <!-- 状态栏 -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus" Text="就绪"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="txtCameraStatus" Text="相机未连接"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <ProgressBar x:Name="prgProgress" Width="100" Height="15"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
