@@ -1,5 +1,0 @@
-E:\视觉\C#文件\练习\WpfApp2\WpfApp2\obj\Debug\net8.0-windows\WpfApp2.csproj.AssemblyReference.cache
-E:\视觉\C#文件\练习\WpfApp2\WpfApp2\obj\Debug\net8.0-windows\MainWindow.g.cs
-E:\视觉\C#文件\练习\WpfApp2\WpfApp2\obj\Debug\net8.0-windows\App.g.cs
-E:\视觉\C#文件\练习\WpfApp2\WpfApp2\obj\Debug\net8.0-windows\WpfApp2_MarkupCompile.cache
-E:\视觉\C#文件\练习\WpfApp2\WpfApp2\obj\Debug\net8.0-windows\WpfApp2_MarkupCompile.lref
